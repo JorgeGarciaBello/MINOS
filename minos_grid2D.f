@@ -2,8 +2,8 @@
         
         implicit none
         integer  i,j,points,k
-        parameter (points=30 )
-        
+        parameter (points=44800 )        
+
         real*8 chi_dayabay, chi_reno, chi_doubleCHOOZ
         real*8 chi_min_global,db_chi_min
         real*8 db_chi_square_spectral_analysis2_period
@@ -17,11 +17,13 @@
         real*8 var_th13(points), var_th23(points),var_dm23(points)
         real*8 chi2_grid(points,points,points)
         real*8 min_chi2,pi,sin2_th
+        real*8 grid(points,3),minos_ji(points)
+
      
         CHARACTER(30)  names
 
         
-        names='30.minos3D.ih'
+        names='3D.grid.of.sk.dm32.s2t13.s2t23.ih'
         
         
          call Read_MinData20                
@@ -103,52 +105,89 @@ c          print*, min_chi2
        !
        !######################################
        !
-       open(30, file='data/sk-nh.dat')
-       do i=1,n_bins
+       open(30, file='MINOS_data/sk-nh.dat')
+       do i=1,points
          read(30,*) grid(i,:)
        enddo
        close(30)
 
-
-         min_chi2=0.0d0
-         do i=1,points
-         do k=1,points
+       min_chi2=0.0d0
 c$omp parallel do
-         do j=1,points         
-         Y(2)=var_dm23(i)
-         Y(5)=var_th13(j)
-         Y(6)=var_th23(k)
-!           call daya_bay_cov(Y,db_chi_min)
-!           chi2_grid(i,j,k) =db_chi_min
-c           call renoChi2(Y,chi_reno)
-               call minos_2020( Y,min_chi2)
-c               call minos_2020_old( Y,min_chi2)
-c               call minos_2020_plus( Y,min_chi2)
-            chi2_grid(i,j,k) = min_chi2 
-        enddo
+       do i=1,points
+        Y(2)  = -grid(i,1)            !dm32
+        Y(5)  = asin(sqrt(grid(i,2))) !t13
+        Y(6)  = asin(sqrt(grid(i,3))) !t23
+        call minos_2020( Y,min_chi2)
+        minos_ji(i)=min_chi2
+       enddo
 c$omp end parallel do
-        enddo
-        enddo            
+
+       open(30,file='minos.'//names)
+       do i=1,points
+        write(30, '(4F20.8)') grid(i,1),
+     c  grid(i,2), grid(i,3), minos_ji(i)
+       enddo            
+       close(30)
+       
+
+       names='3D.grid.of.sk.dm32.s2t13.s2t23.nh'        
+
+       min_chi2=0.0d0
+c$omp parallel do
+       do i=1,points
+        Y(2)  = grid(i,1)            !dm32
+        Y(5)  = asin(sqrt(grid(i,2))) !t13
+        Y(6)  = asin(sqrt(grid(i,3))) !t23
+        call minos_2020( Y,min_chi2)
+        minos_ji(i)=min_chi2
+       enddo
+c$omp end parallel do
+
+       open(30,file='minos.'//names)
+       do i=1,points
+        write(30, '(4F20.8)') grid(i,1),
+     c  grid(i,2), grid(i,3), minos_ji(i)
+       enddo            
+       close(30)
+
+
+
+c         min_chi2=0.0d0
+c         do i=1,points
+c         do k=1,points
+cc$omp parallel do
+c         do j=1,points         
+c         Y(2)=var_dm23(i)
+c         Y(5)=var_th13(j)
+c         Y(6)=var_th23(k)
+c!           call daya_bay_cov(Y,db_chi_min)
+c!           chi2_grid(i,j,k) =db_chi_min
+cc           call renoChi2(Y,chi_reno)
+c               call minos_2020( Y,min_chi2)
+cc               call minos_2020_old( Y,min_chi2)
+cc               call minos_2020_plus( Y,min_chi2)
+c            chi2_grid(i,j,k) = min_chi2 
+c        enddo
+cc$omp end parallel do
+c        enddo
+c        enddo            
 
 ! open(10,file='g.th23th13dm.50'//names)
        !open(30,file='g.th23dm.'//names)
-       open(30,file='g.dm.s2th13.s2th23.'//names)
-            
-            
-        do i=1,points
-        do j=1,points
-        do k=1,points
-        sin2_th=sin(var_th23(k))**2
-
-       write(30, '(4F20.8)') var_dm23(i),
-     c  sin(var_th13(j))**2,sin2_th, chi2_grid(i,j,k)
-c          write(30, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
-c          write(*, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
-
-        enddo
-        enddo
-        enddo
-            
-        close(30)
+c       open(30,file='g.dm.s2th13.s2th23.'//names)
+c        do i=1,points
+c        do j=1,points
+c        do k=1,points
+c        sin2_th=sin(var_th23(k))**2
+c
+c       write(30, '(4F20.8)') var_dm23(i),
+c     c  sin(var_th13(j))**2,sin2_th, chi2_grid(i,j,k)
+cc          write(30, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
+cc          write(*, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
+c
+c        enddo
+c        enddo
+c        enddo            
+c        close(30)
 
        end
