@@ -3,6 +3,7 @@
         implicit none
         integer  i,j,points,k
         parameter (points=44800 )        
+        !parameter (points=30 )
 
         real*8 chi_dayabay, chi_reno, chi_doubleCHOOZ
         real*8 chi_min_global,db_chi_min
@@ -23,7 +24,8 @@
         CHARACTER(30)  names
 
         
-        names='3D.grid.of.sk.dm32.s2t13.s2t23.ih'
+       
+        !names='3D.nh'
         
         
          call Read_MinData20                
@@ -111,29 +113,8 @@ c          print*, min_chi2
        enddo
        close(30)
 
+       names='3D.grid.of.sk.dm32.s2t13.s2t23.nh'
        min_chi2=0.0d0
-c$omp parallel do
-       do i=1,points
-        Y(2)  = -grid(i,1)            !dm32
-        Y(5)  = asin(sqrt(grid(i,2))) !t13
-        Y(6)  = asin(sqrt(grid(i,3))) !t23
-        call minos_2020( Y,min_chi2)
-        minos_ji(i)=min_chi2
-       enddo
-c$omp end parallel do
-
-       open(30,file='minos.'//names)
-       do i=1,points
-        write(30, '(4F20.8)') grid(i,1),
-     c  grid(i,2), grid(i,3), minos_ji(i)
-       enddo            
-       close(30)
-       
-
-       names='3D.grid.of.sk.dm32.s2t13.s2t23.nh'        
-
-       min_chi2=0.0d0
-c$omp parallel do
        do i=1,points
         Y(2)  = grid(i,1)            !dm32
         Y(5)  = asin(sqrt(grid(i,2))) !t13
@@ -141,7 +122,23 @@ c$omp parallel do
         call minos_2020( Y,min_chi2)
         minos_ji(i)=min_chi2
        enddo
-c$omp end parallel do
+
+       open(30,file='minos.'//names)
+       do i=1,points
+        write(30, '(4F20.8)') grid(i,1),
+     c  grid(i,2), grid(i,3), minos_ji(i)
+       enddo            
+       close(30)
+      
+       names='3D.grid.of.sk.dm32.s2t13.s2t23.ih'
+       min_chi2=0.0d0
+       do i=1,points
+        Y(2)  = -grid(i,1)            !dm32
+        Y(5)  = asin(sqrt(grid(i,2))) !t13
+        Y(6)  = asin(sqrt(grid(i,3))) !t23
+        call minos_2020( Y,min_chi2)
+        minos_ji(i)=min_chi2
+       enddo
 
        open(30,file='minos.'//names)
        do i=1,points
@@ -150,43 +147,39 @@ c$omp end parallel do
        enddo            
        close(30)
 
-
+       !#######################################
+       !#######################################
+       !#######################################
 
 c         min_chi2=0.0d0
 c         do i=1,points
 c         do k=1,points
-cc$omp parallel do
-c         do j=1,points         
-c         Y(2)=var_dm23(i)
-c         Y(5)=var_th13(j)
-c         Y(6)=var_th23(k)
-c!           call daya_bay_cov(Y,db_chi_min)
-c!           chi2_grid(i,j,k) =db_chi_min
-cc           call renoChi2(Y,chi_reno)
-c               call minos_2020( Y,min_chi2)
-cc               call minos_2020_old( Y,min_chi2)
-cc               call minos_2020_plus( Y,min_chi2)
-c            chi2_grid(i,j,k) = min_chi2 
-c        enddo
-cc$omp end parallel do
-c        enddo
-c        enddo            
-
-! open(10,file='g.th23th13dm.50'//names)
-       !open(30,file='g.th23dm.'//names)
-c       open(30,file='g.dm.s2th13.s2th23.'//names)
-c        do i=1,points
-c        do j=1,points
-c        do k=1,points
-c        sin2_th=sin(var_th23(k))**2
 c
-c       write(30, '(4F20.8)') var_dm23(i),
-c     c  sin(var_th13(j))**2,sin2_th, chi2_grid(i,j,k)
-cc          write(30, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
+c         !do j=1,points         
+c         Y(2)=var_dm23(i)
+c         !Y(5)=var_th13(j)
+c         Y(6)=var_th23(k)
+c               call minos_2020( Y,min_chi2)
+c               chi2_grid(i,1,k) = min_chi2 
+c        enddo
+c        !enddo
+c        enddo            
+c
+c
+c       !open(30,file='g.dm.s2th13.s2th23.'//names)
+c       open(30,file='g.dm.s2th23.'//names)
+c       do k=1,points
+c       !do j=1,points
+c       do i=1,points
+c          sin2_th=sin(var_th23(k))**2
+c
+cc          write(30, '(4F20.8)') var_dm23(i),
+cc     c  sin(var_th13(j))**2,sin2_th, chi2_grid(i,j,k)
+c          write(30, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
 cc          write(*, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
 c
 c        enddo
-c        enddo
+c        !enddo
 c        enddo            
 c        close(30)
 

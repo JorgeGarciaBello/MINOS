@@ -1,7 +1,7 @@
 % chi_grid=load('db_grid_eff_90.dat');   % db_grid_testBkg.dat
 %  chi_grid=load('db_grid_915_90.dat');   % db_grid_testBkg.dat
 %chi_grid=load('g.th23dm.30.minos2');
-chi_grid=load('g.th23dm.30.minos2.nh');   % Datos de considerar la JERAQUÍA NORMAL
+chi_grid=load('g.dm.s2th23.3D.nh');   % Datos de considerar la JERAQUÍA NORMAL
 %chi_grid=load('g.th23dm.30.minos2.ih');  % Datos de considerar la JERAQUÍA INVERSA
 %chi_grid=load('/Users/roa/workfolder/sources_20/minos/MINOS/MINOS-data/g.th23dm.30.minos');
 cl_beam_68=load('MINOS_data/MINOS_cl_68_beam_nh.dat');
