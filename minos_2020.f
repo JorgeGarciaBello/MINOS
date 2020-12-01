@@ -4,8 +4,8 @@
        subroutine  minos_2020( Y,min_chi2)
        implicit none
        include 'MINOS_20.inc'       
-       	include 'UMAT4.inc'
-       	include 'GLOB.inc'
+       !	include 'UMAT4.inc'
+       !	include 'GLOB.inc'
        	
        	
        integer i,j,k
@@ -52,16 +52,10 @@ c i=8 -> MINOS-upper-sigma-limits.dat
         min_osc(i)=MinData20(6,2,i) 
         min_mc(i)=MinData20(7,2,i)  
         sigma(i)= abs(MinData20(8,2,i)-MinData20(5,2,i))/2.0
-        sigma(i)=sigma(i)/min_osc(i)
-        
-c        write(*,*) sigma(i),sigma(i)/min_osc(i),i
-    
-         enddo      
-
-        
-        
-         pi=3.14159265
-    
+        sigma(i)=sigma(i)/min_osc(i)        
+c        write(*,*) sigma(i),sigma(i)/min_osc(i),i    
+         enddo
+         pi=3.14159265    
          
        dm212=  7.54d-5
        dm223=  2.480d-3
@@ -75,20 +69,17 @@ c        write(*,*) sigma(i),sigma(i)/min_osc(i),i
 ! 	  norm=Y(10)
  	    norm=1.0d0 
 
-       call umat(theta12,theta13,theta23,
-     c		theta14,theta24,theta34)
+c       call umat(theta12,theta13,theta23,
+c     c		theta14,theta24,theta34)
          
          epsilon1=0.005d0
 
           do k=1,39
-         Ener=bin_min(k)
-         
-         P_aver=0.0d0
- 
+         Ener=bin_min(k)         
+         P_aver=0.0d0 
  	   do  while (Ener.le.bin_max(k))         
  	   
- 	    LoE=735.0d0/Ener      
-
+ 	    LoE=735.0d0/Ener
 c           w12=1.27d0*dm212*LoE 
 c           w23=1.27d0*dm223*LoE 
 c             w34=1.27d0*dm234*LoE 
@@ -100,10 +91,9 @@ c            Pmumu= 1.0d0  -4.d0*
 c     c        (cmm(1)*(sin(w12)**2)      
 c     c       +cmm(2)*(sin(w13)**2)      
 c     c       +cmm(3)*(sin(w23)**2)      
-c     c       +cmm(4)*(sin(w14)**2)        
+c     c       +cmm(4)*(sin(w14)**2)       
 c     c       +cmm(5)*(sin(w24)**2)             
-c     c       +cmm(6)*(sin(w34)**2) )    
-
+c     c       +cmm(6)*(sin(w34)**2) )   
        call minosoneslab(2,2,
      c theta12,theta23,theta13,0.0d0,dm212,dm223,Ener,1,res)
        
@@ -119,10 +109,7 @@ c     c       +cmm(6)*(sin(w34)**2) )
         Prob_k(k)=P_aver
         
          NOS_Minos(k)=  min_bf(k)/Prob_k(k)    ! min_osc(k)/Prob_k(k)       
-          err_th(k)=abs(NOS_Minos(k)-min_mc(k)) /min_mc(k)       
-          
-
-          
+          err_th(k)=abs(NOS_Minos(k)-min_mc(k)) /min_mc(k)
          enddo       
        !################################################
        !
@@ -152,9 +139,7 @@ c     c       +cmm(6)*(sin(w34)**2) )
         NOS_Minos(k)=NOS_Minos(k)*0.98d0  ! Fixed 0.98 ! 0.89
        enddo
        !################################################
-        
-        
-        
+              
        dm212=Y(1)
        dm223=1.0d0*Y(2)
        dm234=Y(3)
@@ -164,12 +149,12 @@ c     c       +cmm(6)*(sin(w34)**2) )
        theta14=Y(7)
        theta24=Y(8)
        theta34=Y(9)
-! 	norm=Y(10)
+c! 	norm=Y(10)
  	    norm=1.0d0
-        
 
-       call umat(theta12,theta13,theta23,
-     c		theta14,theta24,theta34)               
+c
+c       call umat(theta12,theta13,theta23,
+c     c		theta14,theta24,theta34)               
      
      
      
@@ -224,15 +209,15 @@ c     c       +cmm(6)*(sin(w34)**2) )
         
         Ener_cent=bin_min(k) + ((bin_max(k)-bin_min(k))/2.0d0) 	   
 
-	    LoE=735.0d0/Ener_cent     
+	      LoE=735.0d0/Ener_cent
 	    
  
-          w12=1.27d0*dm212*LoE 
-          w23=1.27d0*dm223*LoE 
-            w34=1.27d0*dm234*LoE 
-            w13=w12+w23      
-            w14=w13+w34      
-            w24=w23+w34              
+c          w12=1.27d0*dm212*LoE 
+c          w23=1.27d0*dm223*LoE 
+c            w34=1.27d0*dm234*LoE 
+c            w13=w12+w23      
+c            w14=w13+w34      
+c            w24=w23+w34              
        !####################################################
        !##########                       ###################
        !####################################################    
@@ -255,12 +240,12 @@ c     c       +cmm(6)*(sin(w34)**2) )
       
 	    LoE=735.0d0/Ener     
  
-          w12=1.27d0*dm212*LoE 
-          w23=1.27d0*dm223*LoE 
-            w34=1.27d0*dm234*LoE 
-            w13=w12+w23      
-            w14=w13+w34      
-            w24=w23+w34      
+c          w12=1.27d0*dm212*LoE 
+c          w23=1.27d0*dm223*LoE 
+c            w34=1.27d0*dm234*LoE 
+c            w13=w12+w23      
+c            w14=w13+w34      
+c            w24=w23+w34      
            
            
 c           Pmumu= 1.0d0  -4.d0*       
@@ -286,8 +271,6 @@ c     c       +cmm(6)*(sin(w34)**2) )
         Ener=Ener+epsilon1
 
  	   enddo
-
-    
        P_aver=P_aver/(bin_max(k)-bin_min(k))
       
        
@@ -303,17 +286,13 @@ c     c       +cmm(6)*(sin(w34)**2) )
         enddo 
         
        min_chi2_pull=0.0d0
-       
-               do k=1,39                 
-                  !  sigma_k = min_data(k)*(1.0d0+sigma_minos(1)**2)   
-                  sigma_k= min_data(k) ! * sigma(k)  !min_th(k)  !   !*   
-                  if(k<=10) sigma_k=sigma_k*13.0   ! FIxed value 10.0 && 12.0 en 20
-
-                min_chi2_pull=min_chi2_pull+
-     c    (( min_th(k) -  min_data(k))  )**2   / (sigma_k)   ! sigma=10
-        
-               enddo
-        
+       do k=1,39                  
+          sigma_k= min_data(k) ! * sigma(k)  !min_th(k)  !   !*   
+          if(k<=10) sigma_k=sigma_k*13.0   ! FIxed value 10.0 && 12.0 en 20
+          
+          min_chi2_pull=min_chi2_pull+
+     c    (( min_th(k)*0.99d0 -  min_data(k))  )**2   / (sigma_k)
+       enddo
         min_chi2=min_chi2_pull
             print*, min_chi2       
          
