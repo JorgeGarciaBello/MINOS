@@ -130,16 +130,26 @@ c     c       +cmm(6)*(sin(w34)**2) )
        !
        !################################################       
        do k=1,5
-        NOS_Minos(k)=NOS_Minos(k)*0.7d0  ! FIxed to 0.7
+        NOS_Minos(k)=NOS_Minos(k)*0.9d0  ! FIxed to 0.7
        enddo
        do k=6,10
-        NOS_Minos(k)=NOS_Minos(k)*1.2d0  ! FIxed to 1.2
+        NOS_Minos(k)=NOS_Minos(k)*0.8d0  ! FIxed to 1.2 !0.6,0.8 casi funciona, manditne minimo y valores de masa y angulo, pero neceitamosaplanar la curva
        enddo
        do k=11,15
         NOS_Minos(k)=NOS_Minos(k)*1.07d0  ! Fixed 1.07
        enddo
-       do k=21,39
-        NOS_Minos(k)=NOS_Minos(k)*0.98d0  ! Fixed 0.98
+
+       do k=21,25
+        NOS_Minos(k)=NOS_Minos(k)*0.98d0  ! Fixed 0.98 ! 0.89
+       enddo
+       do k=26,30
+        NOS_Minos(k)=NOS_Minos(k)*0.98d0  ! Fixed 0.98 ! 0.89
+       enddo
+       do k=31,35
+        NOS_Minos(k)=NOS_Minos(k)*0.98d0  ! Fixed 0.98 ! 0.89
+       enddo
+       do k=36,39
+        NOS_Minos(k)=NOS_Minos(k)*0.98d0  ! Fixed 0.98 ! 0.89
        enddo
        !################################################
         
@@ -297,7 +307,7 @@ c     c       +cmm(6)*(sin(w34)**2) )
                do k=1,39                 
                   !  sigma_k = min_data(k)*(1.0d0+sigma_minos(1)**2)   
                   sigma_k= min_data(k) ! * sigma(k)  !min_th(k)  !   !*   
-                  if(k<=10) sigma_k=sigma_k*11.0   ! FIxed value 10.0 && 12.0
+                  if(k<=10) sigma_k=sigma_k*13.0   ! FIxed value 10.0 && 12.0 en 20
 
                 min_chi2_pull=min_chi2_pull+
      c    (( min_th(k) -  min_data(k))  )**2   / (sigma_k)   ! sigma=10

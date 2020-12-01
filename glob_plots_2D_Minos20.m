@@ -111,7 +111,7 @@ plot(mass,chi2_dm)
 %  plot(mass_int,chi2_dm_int)
 
 
-ylim([0.0 20.0])
+ylim([0.0 10.0])
 
 
 
@@ -120,7 +120,7 @@ plot(theta,chi2_sin2th2)
 %  hold on
 %  plot(sin2_2th_int,chi2_sin2_2th_int)
 
-ylim([0.0 20.0])
+ylim([0.0 10.0])
 
 
 Zq_zero=Zq-minimum_int;
@@ -142,7 +142,8 @@ for i=1:interpts
         end
         
         
-        if (  (chi<=4.61) )
+        %if (  (chi<=4.61) )
+        if (  (chi<=4.3) )
         clmass_2(l)=mass_int(j)*1000 ;   
         clsin2_2th_2(l)= sin2_2th_int(i)   ;
         clsin2_th_2(l)=sin2_th_int(i);
@@ -184,7 +185,8 @@ end
 %  
 %  
 xlim([0.3 0.75])
-ylim([1.5  3.1])
+ylim([2.0  3.0]) % ylim([1.5  3.1])
+
 
 
 

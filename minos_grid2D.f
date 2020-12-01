@@ -3,7 +3,7 @@
         implicit none
         integer  i,j,points,k
         parameter (points=44800 )        
-        !parameter (points=30 )
+        !parameter (points=35 )
 
         real*8 chi_dayabay, chi_reno, chi_doubleCHOOZ
         real*8 chi_min_global,db_chi_min
@@ -21,11 +21,11 @@
         real*8 grid(points,3),minos_ji(points)
 
      
-        CHARACTER(30)  names
+        CHARACTER(50)  names
 
         
        
-        !names='3D.nh'
+        names='3D.nh'
         
         
          call Read_MinData20                
@@ -41,8 +41,11 @@ c          call readRENOData()    ! Lee datos de RENO
        var_the13min=-0.45
        var_the13max=0.45
  
-       var_dm23max=9.0d-3
-       var_dm23min=0.90d-3
+       var_dm23max=2.70d-3
+       var_dm23min=2.20d-3
+
+       !var_dm23max=9.0d-3
+       !var_dm23min=0.90d-3
        
        delta_th13=abs( var_the13max - var_the13min) /float(points-1)     
        delta_th23=abs(var_the23max - var_the23min)/float(points-1)
@@ -112,7 +115,7 @@ c          print*, min_chi2
          read(30,*) grid(i,:)
        enddo
        close(30)
-
+c
        names='3D.grid.of.sk.dm32.s2t13.s2t23.nh'
        min_chi2=0.0d0
        do i=1,points
@@ -139,7 +142,7 @@ c          print*, min_chi2
         call minos_2020( Y,min_chi2)
         minos_ji(i)=min_chi2
        enddo
-
+c
        open(30,file='minos.'//names)
        do i=1,points
         write(30, '(4F20.8)') grid(i,1),
@@ -163,8 +166,7 @@ c               call minos_2020( Y,min_chi2)
 c               chi2_grid(i,1,k) = min_chi2 
 c        enddo
 c        !enddo
-c        enddo            
-c
+c        enddo
 c
 c       !open(30,file='g.dm.s2th13.s2th23.'//names)
 c       open(30,file='g.dm.s2th23.'//names)
@@ -175,9 +177,9 @@ c          sin2_th=sin(var_th23(k))**2
 c
 cc          write(30, '(4F20.8)') var_dm23(i),
 cc     c  sin(var_th13(j))**2,sin2_th, chi2_grid(i,j,k)
-c          write(30, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
-cc          write(*, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
 c
+c          write(30, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
+c          !write(*, *)  sin2_th, var_dm23(i),chi2_grid(i,1,k)
 c        enddo
 c        !enddo
 c        enddo            
